@@ -27,9 +27,24 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //routes here
+    Route::auth();
+    //dd(\Auth::user()->id);
+//    Route::get('/', function () {
+//        if (\Auth::id()==null)
+//            return redirect(\URL::action('Auth\AuthController@showLoginForm'));
+//        elseif (\Auth::id()==1)
+//            return redirect(\URL::action('AdminController@getIndex'));
+//        else
+//            return redirect(\URL::action('UserController@getPersonal'));
+//    });
+
+    Route::controllers([
+        'admin' => 'AdminController',
+        'user' => 'UserController',
+
+    ]);
 });
 
-Route::auth();
+//Route::auth();
 
 Route::get('/home', 'HomeController@index');
