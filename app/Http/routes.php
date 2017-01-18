@@ -25,26 +25,28 @@ Route::get('/', function () {
 | kernel and includes session state, CSRF protection, and more.
 |
 */
+//Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => ['web']], function () {
     Route::auth();
-    //dd(\Auth::user()->id);
-//    Route::get('/', function () {
-//        if (\Auth::id()==null)
-//            return redirect(\URL::action('Auth\AuthController@showLoginForm'));
-//        elseif (\Auth::id()==1)
-//            return redirect(\URL::action('AdminController@getIndex'));
-//        else
-//            return redirect(\URL::action('UserController@getPersonal'));
-//    });
+
+
+    Route::get('/', function () { //dd(\Auth::id());
+        if (\Auth::id()==null)
+            return redirect(\URL::action('Auth\AuthController@showLoginForm'));
+        elseif (\Auth::id()==1)
+            return redirect(\URL::action('AdminController@getIndex'));
+        else
+            return redirect(\URL::action('UserController@getIndex'));
+    });
 
     Route::controllers([
         'admin' => 'AdminController',
         'user' => 'UserController',
-
+        '' => 'Auth\AuthController',
     ]);
 });
 
 //Route::auth();
 
-Route::get('/home', 'HomeController@index');
+//

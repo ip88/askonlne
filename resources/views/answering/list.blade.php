@@ -49,7 +49,7 @@
                                     Former::textarea('answers[]')
                                         ->label('Ваш ответ')
                                         ->rows(7)
-                                           ->value($item->answer)
+                                        ->value($item->answer)
                                 !!}
                             </td>
                         </tr>

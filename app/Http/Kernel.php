@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
+
     ];
 
     /**
@@ -50,5 +51,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'auth-route-as-admin' => \App\Http\Middleware\AuthRouteAsAdmin::class,
+        'auth-route-as-user' => \App\Http\Middleware\AuthRouteAsUser::class,
     ];
 }
