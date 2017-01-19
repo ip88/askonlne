@@ -25,7 +25,7 @@ class UserController extends Controller
     public function getIndex(Request $request)
     {
         $data = [
-            'asks' => Ask::where('user_id', $this->user)->get(),
+            'asks' => Ask::where('user_id', $this->user)->orderBy('created_at', 'desc')->get(),
         ];
 
         if($request->ajax())return view('asks.asks_ajax', $data);
@@ -49,7 +49,11 @@ class UserController extends Controller
 
         Ask::create($inputs);
 
-        Mail::send('email', $inputs['question'], function ($message) use($admin){
+        $text = [
+            'text' => 'Вам пришло сообщение о поступлении нового вопроса<br>Не отвечайте на данное сообщение.'
+        ];
+
+        Mail::send('email', $text, function ($message) use($admin){
             $message->to($admin->email, 'AskOnlineeeee')->subject('AskOnlineeeee оповещение');
         });
 

@@ -1,6 +1,6 @@
 @foreach($asks as $cnt=>$item)
     <tr>
-        <td class="col-sm-1">
+        <td class="col-sm-1 {{empty($item->answer) ? 'red' :'green'}}">
             {{++$cnt}})
         </td>
         <td class="col-sm-8">
@@ -15,7 +15,12 @@
         <td class="col-sm-1">
         </td>
         <td class="col-sm-8">
-            {{ $item->answer }}
+            @if(!empty($item->answer))
+                {{ $item->answer }}
+            @endif
+            @if(empty($item->answer))
+                Пока нет ответа
+            @endif
         </td>
         <td class="col-sm-3">
         </td>

@@ -25,7 +25,7 @@ class AdminController extends Controller
     {
 
         $data = [
-            'asks' => Ask::all(),
+            'asks' => Ask::orderBy('created_at', 'desc')->get(),
         ];
 
         return view('answering.list', $data);
@@ -35,18 +35,22 @@ class AdminController extends Controller
     {
         $inputs = $request->all();
 
-        foreach ($inputs['ids'] as $key=>$id) {
-            $ask = Ask::find($id);
-            $answ = $inputs['answers'][$key];
-            $ask->update([
-                'answer'=>$answ,
-            ]);
+        $id = $inputs['ask_id'];
+        $answer = $inputs['answer'];
 
-            Mail::send('email', $answ, function ($message) use ($ask) {
-                $message->to(User::find($ask->user_id)->email, 'AskOnlineeeee')->subject('AskOnlineeeee оповещение');
-            });
+        $ask = Ask::find($id);
 
-        }
+        $ask->update([
+            'answer' => $answer,
+        ]);
+
+        $text = [
+            'text' => 'Вам пришел ответ на Ваш вопрос<br>Не отвечайте на данное сообщение.'
+        ];
+
+        Mail::send('email', $text, function ($message) use ($ask) {
+            $message->to(User::find($ask->user_id)->email, 'AskOnlineeeee')->subject('AskOnlineeeee оповещение');
+        });
 
         return redirect(\URL::action('AdminController@getIndex'));
     }
